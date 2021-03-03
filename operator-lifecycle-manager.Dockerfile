@@ -11,16 +11,17 @@ COPY .git/HEAD .git/HEAD
 COPY .git/refs/heads/. .git/refs/heads
 RUN mkdir -p .git/objects
 
-COPY Makefile Makefile
-COPY OLM_VERSION OLM_VERSION
-COPY pkg pkg
-COPY staging staging
-COPY vendor vendor
-COPY cmd cmd
-COPY util util
-COPY test test
-COPY go.mod go.mod
-COPY go.sum go.sum
+ARG STAGING_DIR=staging/operator-lifecycle-manager
+COPY ${STAGING_DIR}/Makefile Makefile
+COPY ${STAGING_DIR}/OLM_VERSION OLM_VERSION
+COPY ${STAGING_DIR}/deploy deploy
+COPY ${STAGING_DIR}/pkg pkg
+COPY ${STAGING_DIR}/vendor vendor
+COPY ${STAGING_DIR}/cmd cmd
+COPY ${STAGING_DIR}/util util
+COPY ${STAGING_DIR}/test test
+COPY ${STAGING_DIR}/go.mod go.mod
+COPY ${STAGING_DIR}/go.sum go.sum
 RUN CGO_ENABLED=1 make build
 RUN make build-util
 
